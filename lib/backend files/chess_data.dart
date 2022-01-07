@@ -29,39 +29,39 @@ class ChessData extends ChangeNotifier {
       PieceType.elephant,
     ];
 
-    // this all for loop initialize chess with chess character
+    // filling place of chess with chess pieces like soldier & king
     for (int i = 0; i <= 7; i++) {
       this.chess.add(Place(
           position: i,
           chessPiece: ChessPiece(chessPieces[i], Player.Player1),
-          stateColor: StateColor.normal));
+          stateColor: PlaceState.normal));
     }
     for (int i = 8; i <= 15; i++) {
       this.chess.add(Place(
             position: i,
             chessPiece: ChessPiece(PieceType.soldier, Player.Player1),
-            stateColor: StateColor.normal,
+            stateColor: PlaceState.normal,
           ));
     }
     for (int i = 16; i <= 47; i++) {
       this.chess.add(Place(
             position: i,
             chessPiece: ChessPiece(PieceType.none, Player.NullPlayer),
-            stateColor: StateColor.normal,
+            stateColor: PlaceState.normal,
           ));
     }
     for (int i = 48; i <= 55; i++) {
       this.chess.add(Place(
             position: i,
             chessPiece: ChessPiece(PieceType.soldier, Player.Player2),
-            stateColor: StateColor.normal,
+            stateColor: PlaceState.normal,
           ));
     }
     for (int i = 56; i <= 63; i++) {
       this.chess.add(Place(
           position: i,
           chessPiece: ChessPiece(chessPieces[i - 56], Player.Player2),
-          stateColor: StateColor.normal));
+          stateColor: PlaceState.normal));
     }
     chessBoard = [];
     Color greenAccent = Colors.greenAccent;
@@ -118,7 +118,7 @@ class ChessData extends ChangeNotifier {
   void clear() {
     selectedPos = -1;
     chess.forEach((place) {
-      place.stateColor = StateColor.normal;
+      place.stateColor = PlaceState.normal;
     });
   }
 
@@ -147,12 +147,13 @@ class ChessData extends ChangeNotifier {
       } else {
         currentlyPlaying = Player.Player1;
       }
-      return true;
+      return canBeToggle;
     } else {
-      return false;
+      return canBeToggle;
     }
   }
 
+  //take pieceType and position
   Map<String, List<int>> getPossibleAndKillPosition(Place place) {
     switch (place.chessPiece.pieceType) {
       case PieceType.soldier:
@@ -175,7 +176,7 @@ class ChessData extends ChangeNotifier {
 //add notify listeners
 //response to different colour state of chess places
   void onTapPlace(Place place) {
-    if (place.stateColor == StateColor.normal) {
+    if (place.stateColor == PlaceState.normal) {
       if (place.chessPiece.pieceType == PieceType.none) {
         clear();
       } else if (currentlyPlaying == Player.NullPlayer) {
@@ -186,20 +187,20 @@ class ChessData extends ChangeNotifier {
 
 //updating the selectingPos to new chessPiece of curringly playing player
         selectedPos = place.position;
-        place.stateColor = StateColor.selected;
+        place.stateColor = PlaceState.selected;
         //highlighting position base on type of chess piece present
         highlightingPosition(getPossibleAndKillPosition(place));
       }
-    } else if (place.stateColor == StateColor.selected) {
+    } else if (place.stateColor == PlaceState.selected) {
       clear();
-    } else if (place.stateColor == StateColor.possible) {
+    } else if (place.stateColor == PlaceState.possible) {
       //placing piece to new position
       place.chessPiece = chess[selectedPos].chessPiece;
       chess[selectedPos].chessPiece =
           ChessPiece(PieceType.none, Player.NullPlayer);
       clear();
       togglePlayer();
-    } else if (place.stateColor == StateColor.susKill) {
+    } else if (place.stateColor == PlaceState.susKill) {
       if (place.chessPiece.player == Player.Player1) {
         killedPieceOfPlayer1.add(
             ChessPiece(place.chessPiece.pieceType, place.chessPiece.player));
@@ -220,10 +221,10 @@ class ChessData extends ChangeNotifier {
 //update state of chess place if it is present in possible and sus_kill
   void highlightingPosition(Map<String, List<int>> range) {
     range["possible"]?.forEach((i) {
-      chess[i].stateColor = StateColor.possible;
+      chess[i].stateColor = PlaceState.possible;
     });
     range["sus_kill"]?.forEach((i) {
-      chess[i].stateColor = StateColor.susKill;
+      chess[i].stateColor = PlaceState.susKill;
     });
   }
 
@@ -477,8 +478,6 @@ class ChessData extends ChangeNotifier {
     separatedList["possible"]?.addAll(elephant(pos)["possible"]!);
     separatedList["sus_kill"]?.addAll(elephant(pos)["sus_kill"]!);
 
-    print("possible: ${separatedList['possible']}");
-    print("sus_kill: ${separatedList['sus_kill']}");
     return separatedList;
   }
 
@@ -490,9 +489,9 @@ class ChessData extends ChangeNotifier {
   }
 
   Color borderColor(Place place) {
-    if (place.stateColor == StateColor.selected) {
+    if (place.stateColor == PlaceState.selected) {
       return Colors.green[900]!;
-    } else if (place.stateColor == StateColor.susKill) {
+    } else if (place.stateColor == PlaceState.susKill) {
       return Colors.red[200]!;
     }
     return chessBoard[place.position];
@@ -503,7 +502,7 @@ class ChessData extends ChangeNotifier {
       return SvgPicture.asset(
         place.chessPiece.imagePath,
       );
-    } else if ((place.stateColor == StateColor.possible)) {
+    } else if ((place.stateColor == PlaceState.possible)) {
       return SvgPicture.asset("assets/round_dot.svg");
     }
     return Container();

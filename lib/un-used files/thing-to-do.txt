@@ -1,0 +1,4 @@
+convert state color to state enum for entire app
+warn player about check given king
+add animation of movement 
+add wifi direct to play game between two mobile without internet

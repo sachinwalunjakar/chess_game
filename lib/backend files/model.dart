@@ -57,18 +57,13 @@ class ChessPiece {
   //
 }
 
-class StateColor {
-  static const Color normal = Colors.green;
-  static const Color possible = Colors.yellow;
-  static const Color selected = Colors.blueAccent;
-  static const Color susKill = Colors.redAccent;
-}
+enum PlaceState { normal, possible, selected, susKill }
 
 //actual place in chess grid
 class Place {
   final int position;
   ChessPiece chessPiece;
-  Color stateColor;
+  PlaceState stateColor;
   Place({
     required this.position,
     required this.chessPiece,

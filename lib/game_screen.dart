@@ -36,7 +36,6 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   void dispose() {
-    print("dispose: game screen is disposed");
     super.dispose();
   }
 
@@ -47,7 +46,6 @@ class _GameScreenState extends State<GameScreen> {
       history.clear();
       history.add(first);
     }
-    print("reset: ${history.length}");
   }
 
   void undo(BuildContext context) {
@@ -61,8 +59,6 @@ class _GameScreenState extends State<GameScreen> {
       history.removeLast();
       history.removeLast();
     }
-
-    print("undo: ${history.length}");
   }
 
   @override
@@ -160,7 +156,7 @@ class _GameScreenState extends State<GameScreen> {
               child: SafeArea(
                 child: Container(
                   height: size.width / 4, //(159, 75, 225, 1)
-                  color: Color.fromRGBO(159, 75, 225, 1),
+                  color: const Color.fromRGBO(159, 75, 225, 1),
                   child: GridView.extent(
                     maxCrossAxisExtent: size.width / 8,
                     dragStartBehavior: DragStartBehavior.down,
