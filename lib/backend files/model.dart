@@ -62,12 +62,12 @@ enum PlaceState { normal, possible, selected, susKill }
 //actual place in chess grid
 class Place {
   final int position;
-  ChessPiece chessPiece;
-  PlaceState stateColor;
+  ChessPiece chessPiece; //class containing two enum
+  PlaceState state; //enum
   Place({
     required this.position,
     required this.chessPiece,
-    required this.stateColor,
+    required this.state,
   });
 
   //return value instead reference
@@ -75,46 +75,6 @@ class Place {
       : this(
           position: place.position,
           chessPiece: ChessPiece.copy(place.chessPiece),
-          stateColor: place.stateColor,
+          state: place.state,
         );
 }
-
-// class ChessGame {
-//   List<Place> chess = [];
-//   int selectedPos = -1;
-//   Player currentlyPlaying = Player.Player1;
-//   List<ChessPiece> killPieceOfPlayer1 = [];
-//   List<ChessPiece> killPieceOfPlayer2 = [];
-// }
-
-
-// @override
-//   String toString() {
-//     String state;
-//     switch (this.chessPiece.pieceType) {
-//       case PieceType.elephant:
-//         state = "elephant";
-//         break;
-//       case PieceType.horse:
-//         state = "horse";
-//         break;
-//       case PieceType.camel:
-//         state = "camel";
-//         break;
-//       case PieceType.king:
-//         state = "king";
-//         break;
-//       case PieceType.queen:
-//         state = "queen";
-//         break;
-//       case PieceType.soldier:
-//         state = "soldier";
-//         break;
-//       default:
-//         state = "empty";
-//     }
-//     if (this.position % 8 == 0) {
-//       return "\n" + state;
-//     }
-//     return state;
-//   }

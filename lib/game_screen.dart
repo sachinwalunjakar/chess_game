@@ -68,108 +68,106 @@ class _GameScreenState extends State<GameScreen> {
         [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color.fromRGBO(4, 0, 51, 1),
-      body: Container(
-        child: Column(
-          children: [
-            GestureDetector(
-              onDoubleTap: () {
-                undo(context);
-              },
-              child: SafeArea(
-                child: Container(
-                  height: size.width / 4,
-                  color: Color.fromRGBO(159, 75, 225, 1),
-                  child: MyGridView(chessData.killedPieceOfPlayer1
-                      .map((e) => SizedBox(
-                          width: size.width / 8,
-                          child: SvgPicture.asset(e.imagePath)))
-                      .toList()),
-                ),
-              ),
-            ),
-            Spacer(),
-            Container(
-              height: 60,
-              padding: EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onDoubleTap: () {
-                      reset(context);
-                    },
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        border: Border.all(
-                            width: 4.0,
-                            color: chessData.currentlyPlaying == Player.Player1
-                                ? Colors.white
-                                : Colors.blue),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            //adding chess to game screen
-            Center(
+      backgroundColor: const Color.fromRGBO(4, 0, 51, 1),
+      body: Column(
+        children: [
+          GestureDetector(
+            onDoubleTap: () {
+              undo(context);
+            },
+            child: SafeArea(
               child: Container(
-                height: size.width,
-                width: size.width,
-                child: Chess(),
+                height: size.width / 4,
+                color: const Color.fromRGBO(159, 75, 225, 1),
+                child: MyGridView(chessData.killedPieceOfPlayer1
+                    .map((e) => SizedBox(
+                        width: size.width / 8,
+                        child: SvgPicture.asset(e.imagePath)))
+                    .toList()),
               ),
             ),
-            Container(
-              height: 60,
-              padding: EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onDoubleTap: () {
-                      reset(context);
-                    },
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        border: Border.all(
-                            width: 4.0,
-                            color: chessData.currentlyPlaying == Player.Player2
-                                ? Colors.white
-                                : Colors.blue),
-                      ),
+          ),
+          const Spacer(),
+          Container(
+            height: 60,
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onDoubleTap: () {
+                    reset(context);
+                  },
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      border: Border.all(
+                          width: 4.0,
+                          color: chessData.currentlyPlaying == Player.Player1
+                              ? Colors.white
+                              : Colors.blue),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Spacer(),
-            GestureDetector(
-              onDoubleTap: () {
-                undo(context);
-              },
-              child: SafeArea(
-                child: Container(
-                  height: size.width / 4, //(159, 75, 225, 1)
-                  color: const Color.fromRGBO(159, 75, 225, 1),
-                  child: GridView.extent(
-                    maxCrossAxisExtent: size.width / 8,
-                    dragStartBehavior: DragStartBehavior.down,
-                    physics: NeverScrollableScrollPhysics(),
-                    children: chessData.killedPieceOfPlayer2
-                        .map((e) => SvgPicture.asset(e.imagePath))
-                        .toList(),
+          ),
+          //adding chess to game screen
+          Center(
+            child: Container(
+              height: size.width,
+              width: size.width,
+              child: Chess(),
+            ),
+          ),
+          Container(
+            height: 60,
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GestureDetector(
+                  onDoubleTap: () {
+                    reset(context);
+                  },
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      border: Border.all(
+                          width: 4.0,
+                          color: chessData.currentlyPlaying == Player.Player2
+                              ? Colors.white
+                              : Colors.blue),
+                    ),
                   ),
+                ),
+              ],
+            ),
+          ),
+          const Spacer(),
+          GestureDetector(
+            onDoubleTap: () {
+              undo(context);
+            },
+            child: SafeArea(
+              child: Container(
+                height: size.width / 4, //(159, 75, 225, 1)
+                color: const Color.fromRGBO(159, 75, 225, 1),
+                child: GridView.extent(
+                  maxCrossAxisExtent: size.width / 8,
+                  dragStartBehavior: DragStartBehavior.down,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: chessData.killedPieceOfPlayer2
+                      .map((e) => SvgPicture.asset(e.imagePath))
+                      .toList(),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

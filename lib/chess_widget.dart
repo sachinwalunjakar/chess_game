@@ -28,7 +28,7 @@ class _ChessState extends State<Chess> {
               decoration: BoxDecoration(
                 border:
                     Border.all(color: chessData.borderColor(place), width: 3.0),
-                color: place.stateColor == PlaceState.susKill
+                color: place.state == PlaceState.susKill
                     ? Colors.red[200]
                     : chessData.chessBoard[place.position],
               ),
