@@ -1,6 +1,7 @@
 import 'package:chess_game/backend%20files/chess_data.dart';
 import 'package:chess_game/backend%20files/model.dart';
 import 'package:chess_game/mygrid.dart';
+import 'package:chess_game/winner_dialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,8 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   late List<ChessData> history;
   late ChessData chessData;
+  late bool isPlayerChanged;
+  bool isGameEnd = false;
 
   @override
   void initState() {
@@ -28,15 +31,59 @@ class _GameScreenState extends State<GameScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     chessData = Provider.of<ChessData>(context);
-    if (history.isEmpty ||
-        (history.last.currentlyPlaying != chessData.currentlyPlaying)) {
+    isPlayerChanged = history.isEmpty ||
+        (history.last.currentlyPlaying != chessData.currentlyPlaying);
+    if (isPlayerChanged) {
       history.add(ChessData.copy(chessData));
+
+      //logic for checking end of game and displaying winner.
+      List<ChessPiece> killedPiece =
+          (chessData.currentlyPlaying == Player.Player1)
+              ? chessData.killedPieceOfPlayer1
+              : chessData.killedPieceOfPlayer2;
+      for (ChessPiece chessPiece in killedPiece) {
+        //whether king is present in kill chess piece list
+        if (PieceType.king == chessPiece.pieceType) {
+          isGameEnd = true;
+          break;
+        }
+      }
+      if (isGameEnd) {
+        String winnerName = (chessData.currentlyPlaying == Player.Player1)
+            ? "White Wins !"
+            : "Black Wins !";
+        print(winnerName);
+        displayWinnerDialog(context, winnerName);
+      }
     }
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  //show name of winner either black or white
+  void displayWinnerDialog(BuildContext context, String winnerName) {
+    Future.delayed(
+      Duration.zero,
+      () => showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => GameEndDialog(
+            winnerName: winnerName,
+            replay: () {
+              reset(context);
+              Navigator.of(context).pop();
+              isGameEnd = false;
+            },
+            undo: () {
+              undo(context);
+              Navigator.of(context).pop();
+              isGameEnd = false;
+            }),
+      ),
+    );
   }
 
   void reset(BuildContext context) {

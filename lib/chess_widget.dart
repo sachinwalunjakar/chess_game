@@ -38,7 +38,7 @@ class _ChessState extends State<Chess> {
         )
         .toList();
     return Padding(
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
         child: Container(
@@ -46,11 +46,11 @@ class _ChessState extends State<Chess> {
           height: size.width + 20,
           width: size.width,
           child: GridView.count(
-            padding: EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.only(bottom: 10),
             crossAxisCount: 8,
             // scrollDirection: Axis.horizontal,
             children: places,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
           ),
         ),
       ),
